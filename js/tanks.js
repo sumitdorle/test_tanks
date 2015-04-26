@@ -206,20 +206,6 @@ var nextFire = 0;
 
 
 Tank = function (index, game, player) {
-	this.cursor = {
-		left:false,
-		right:false,
-		up:false,
-		fire:false		
-	}
-
-	this.input = {
-		left:false,
-		right:false,
-		up:false,
-		fire:false
-	}
-
     var x = 0;
     var y = 0;
 
@@ -264,22 +250,12 @@ Tank.prototype.update = function() {
 
 
 Tank.prototype.fire = function(target) {
-		if (!this.alive) return;
-        if (this.game.time.now > this.nextFire && this.bullets.countDead() > 0)
-        {
-            this.nextFire = this.game.time.now + this.fireRate;
-            var bullet = this.bullets.getFirstDead();
-            bullet.reset(this.turret.x, this.turret.y);
-
-			bullet.rotation = this.game.physics.arcade.moveToObject(bullet, target, 500);
-        }
+    //TODO : firing bullets implementation
 }
 
 
 Tank.prototype.kill = function() {
-	this.alive = false;
-	this.tank.kill();
-	this.turret.kill();
+    //TODO : killing a robot
 }
 
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
@@ -290,8 +266,6 @@ function preload () {
     game.load.atlas('enemy', 'assets/enemy-tanks.png', 'assets/tanks.json');
     game.load.image('bullet', 'assets/bullet.png');
     game.load.image('earth', 'assets/scorched_earth.png');
-    //game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 23);
-    
 }
 
 
@@ -316,23 +290,9 @@ function create () {
 	tank.y=0;
 	bullets = player.bullets;
 
-    // //  Explosion pool
-    // explosions = game.add.group();
-
-    // for (var i = 0; i < 10; i++)
-    // {
-    //     var explosionAnimation = explosions.create(0, 0, 'kaboom', [0], false);
-    //     explosionAnimation.anchor.setTo(0.5, 0.5);
-    //     explosionAnimation.animations.add('kaboom');
-    // }
 
     tank.bringToTop();
     turret.bringToTop();
-		
-    //logo = game.add.sprite(0, 200, 'logo');
-    //logo.fixedToCamera = true;
-
-    //game.input.onDown.add(removeLogo, this);
 
     game.camera.follow(tank);
     game.camera.deadzone = new Phaser.Rectangle(150, 150, 500, 300);
@@ -342,41 +302,9 @@ function create () {
 }
 
 function update () {
-	
-// 	player.input.left = cursors.left.isDown;
-// 	player.input.right = cursors.right.isDown;
-// 	player.input.up = cursors.up.isDown;
-// 	player.input.fire = game.input.activePointer.isDown;
-// 	player.input.tx = game.input.x+ game.camera.x;
-// 	player.input.ty = game.input.y+ game.camera.y;
-
 	turret.rotation = game.physics.arcade.angleToPointer(turret);	
     land.tilePosition.x = -game.camera.x;
     land.tilePosition.y = -game.camera.y;
-    	
-	
-//     for (var i in tanksList)
-//     {
-// 		if (!tanksList[i]) continue;
-// 		var curBullets = tanksList[i].bullets;
-// 		var curTank = tanksList[i].tank;
-// 		for (var j in tanksList)
-// 		{
-// 			if (!tanksList[j]) continue;
-// 			if (j!=i) 
-// 			{
-			
-// 				var targetTank = tanksList[j].tank;
-				
-// 				game.physics.arcade.overlap(curBullets, targetTank, bulletHitPlayer, null, this);
-			
-// 			}
-// 			if (tanksList[j].alive)
-// 			{
-// 				tanksList[j].update();
-// 			}			
-// 		}
-//     }
 }
 
 function bulletHitPlayer (tank, bullet) {
